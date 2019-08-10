@@ -1,20 +1,21 @@
 <?php
-
+ini_set("display_errors", 0);  
+error_reporting(E_ALL);  
 ini_set('log_errors','on');  //ログを取るか
 ini_set('error_log','php.log');  //ログの出力ファイルを指定
 session_start(); //セッション使う
 
 // 自分のHP
 define("MY_HP", 700);
-// モンスター達格納用
+// 武将達格納用
 $busho = array();
 // クラス（設計図）の作成。クラスの頭は大文字が習わし。
 class Busho{
   // プロパティ
-  public $name; // 定義しただけだとnullが入る
-  public $hp;
-  public $img;
-  public $attack = ''; // nullを入れたくない場合、空文字などで初期化する
+  protected $name; // 定義しただけだとnullが入る
+  protected $hp;
+  protected $img;
+  protected $attack = ''; // nullを入れたくない場合、空文字などで初期化する
   // コンストラクタ（関数）
   public function __construct($name, $hp, $img, $attack) {
     $this->name = $name;
@@ -24,8 +25,49 @@ class Busho{
   }
   // メソッド
   public function attack(){
-    $_SESSION['myhp'] -= $this->attack;
-    $_SESSION['history'] .= $this->attack.'ポイントのダメージを受けた！<br>';
+    $attackPoint = $this->attack;
+    if(!mt_rand(0,6)){ //7分の1の確率で武将の渾身の一撃
+      $attackPoint *= 1.5;
+      $attackPoint = (int)$attackPoint;
+      $_SESSION['history'] .= $this->getName().'の渾身の一撃!!<br>';
+    }
+    $_SESSION['myhp'] -= $attackPoint;
+    $_SESSION['history'] .= $this->getName().'から'.$attackPoint.'ポイントのダメージを受けた！<br>';
+  }
+  // セッター
+  public function setHp($num){
+    $this->hp = filter_var($num, FILTER_VALIDATE_INT);
+  }
+  // ゲッター
+  public function getName(){
+    return $this->name;
+  }
+  public function getHp(){
+    return $this->hp;
+  }
+  public function getImg(){
+    return $this->img;
+  }
+  public function getAttack(){
+    return $this->attack;
+  }
+}
+// 火縄銃を使える武将
+class HinawaBusho extends Busho{
+  private $hinawaAttack;
+  function __construct($name, $hp, $img, $attack, $hinawaAttack) {
+    // 親クラスのコンストラクタで処理する内容を継承したい場合には親コンストラクタを呼び出す。
+    parent::__construct($name, $hp, $img, $attack);
+    $this->hinawaAttack = $hinawaAttack;
+  }
+  public function getHinawaAttack(){
+    return $this->hinawaAttack;
+  }
+  // 火縄銃が増えることはない前提として、セッターは作らない（読み取り専用）
+  public function hinawaAttack(){
+    $_SESSION['history'] .= $this->name.'が火縄銃で発泡!!<br>';
+    $_SESSION['myhp'] -= $this->hinawaAttack;
+    $_SESSION['history'] .= $this->hinawaAttack.'ポイントのダメージを受けた！<br>';
   }
 }
 // インスタンス生成
@@ -37,18 +79,18 @@ $bushoes[] = new Busho( '小早川隆景', 160, 'img/kobayakawa.gif', mt_rand(20
 $bushoes[] = new Busho( '黒田官兵衛', 180, 'img/kuroda.gif', mt_rand(15, 65) );
 $bushoes[] = new Busho( '前田利家', 200, 'img/maeda.gif', mt_rand(20, 60) );
 $bushoes[] = new Busho( '毛利元就', 200, 'img/mouri.gif', mt_rand(20, 60) );
-$bushoes[] = new Busho( '織田信長', 400, 'img/oda.gif', mt_rand(50, 70) );
 $bushoes[] = new Busho( '真田昌幸', 150, 'img/sanada.gif', mt_rand(20, 60) );
 $bushoes[] = new Busho( '柴田勝家', 250, 'img/shibata.gif', mt_rand(20, 60) );
 $bushoes[] = new Busho( '武田信玄', 300, 'img/takeda.gif', mt_rand(25, 55) );
-$bushoes[] = new Busho( '徳川家康', 270, 'img/tokugawa.gif', mt_rand(20, 60) );
-$bushoes[] = new Busho( '豊臣秀吉', 270, 'img/toyotomi.gif', mt_rand(20, 50) );
 $bushoes[] = new Busho( '上杉謙信', 290, 'img/uesugi.gif', mt_rand(20, 55) );
+$bushoes[] = new HinawaBusho( '徳川家康', 270, 'img/tokugawa.gif', mt_rand(20, 60), mt_rand(50, 100) );
+$bushoes[] = new HinawaBusho( '豊臣秀吉', 270, 'img/toyotomi.gif', mt_rand(20, 50), mt_rand(50, 100) );
+$bushoes[] = new HinawaBusho( '織田信長', 400, 'img/oda.gif', mt_rand(50, 70), mt_rand(60, 100) );
 
 function createBusho(){
   global $bushoes;
   $busho =  $bushoes[mt_rand(0, 14)];
-  $_SESSION['history'] .= $busho->name.'が現れた！<br>';
+  $_SESSION['history'] .= $busho->getName().'が現れた！<br>';
   $_SESSION['busho'] =  $busho;
 }
 function init(){
@@ -74,22 +116,31 @@ if(!empty($_POST)){
   }else{
     // 攻撃するを押した場合
     if($attackFlg){
-      $_SESSION['history'] .= '攻撃した！<br>';
+      $_SESSION['history'] .= '拙者が攻撃した！<br>';
 
       // ランダムで武将に攻撃を与える
       $attackPoint = mt_rand(50,100);
-      $_SESSION['busho']->hp -= $attackPoint;
+      $_SESSION['busho']->setHp( $_SESSION['busho']->getHp() - $attackPoint );
       $_SESSION['history'] .= $attackPoint.'ポイントのダメージを与えた！<br>';
       // 武将から攻撃を受ける
-      $_SESSION['busho']->attack();
+      // $_SESSION['busho']->attack();
+      if($_SESSION['busho'] instanceof HinawaBusho){ //渾身攻撃の行える武将なら
+        if(!mt_rand(0,2)){ //3分の1の確率で火縄銃
+          $_SESSION['busho']->hinawaAttack();
+        }else{
+          $_SESSION['busho']->attack();
+        }
+      }else{ //普通の武将ならただ攻撃するだけ
+        $_SESSION['busho']->attack();
+      }
 
       // 自分のhpが0以下になったらゲームオーバー
       if($_SESSION['myhp'] <= 0){
         gameOver();
       }else{
         // hpが0以下になったら、別の武将を出現させる
-        if($_SESSION['busho']->hp <= 0){
-          $_SESSION['history'] .= $_SESSION['busho']->name.'を倒した！<br>';
+        if($_SESSION['busho']->getHp() <= 0){
+          $_SESSION['history'] .= $_SESSION['busho']->getName().'を倒した！<br>';
           unset($_SESSION['history']);
           createBusho();
           $_SESSION['knockDownCount'] = $_SESSION['knockDownCount']+1;
@@ -173,11 +224,11 @@ if(!empty($_POST)){
           <input type="submit" name="start" value="▶ゲームスタート">
         </form>
       <?php }else{ ?>
-        <h2><?php echo $_SESSION['busho']->name.'が現れた!!'; ?></h2>
+        <h2><?php echo $_SESSION['busho']->getName().'が現れた!!'; ?></h2>
         <div style="height: 150px;">
-          <img src="<?php echo $_SESSION['busho']->img; ?>" style="width:220px; height:auto; margin:10px auto 0px auto; display:block;">
+          <img src="<?php echo $_SESSION['busho']->getImg(); ?>" style="width:220px; height:auto; margin:10px auto 0px auto; display:block;">
         </div>
-        <p style="font-size:14px; margin-top:110px; text-align:center;">武将のHP：<?php echo $_SESSION['busho']->hp; ?></p>
+        <p style="font-size:14px; margin-top:110px; text-align:center;">武将のHP：<?php echo $_SESSION['busho']->getHp(); ?></p>
         <p>討ち取った首数：<?php echo $_SESSION['knockDownCount']; ?></p>
         <p>拙者の残りHP：<?php echo $_SESSION['myhp']; ?></p>
         <form method="post">
