@@ -29,10 +29,10 @@ class Busho{
     if(!mt_rand(0,6)){ //7分の1の確率で武将の渾身の一撃
       $attackPoint *= 1.5;
       $attackPoint = (int)$attackPoint;
-      $_SESSION['history'] .= $this->getName().'の渾身の一撃!!<br>';
+      History::set($this->getName().'の渾身の一撃!!!!');
     }
     $_SESSION['myhp'] -= $attackPoint;
-    $_SESSION['history'] .= $this->getName().'から'.$attackPoint.'ポイントのダメージを受けた！<br>';
+    History::set($attackPoint.'ポイントのダメージを受けた！');
   }
   // セッター
   public function setHp($num){
@@ -63,14 +63,6 @@ class HinawaBusho extends Busho{
   public function getHinawaAttack(){
     return $this->hinawaAttack;
   }
-  // 火縄銃が増えることはない前提として、セッターは作らない（読み取り専用）
-  // public function hinawaAttack(){
-  //   $_SESSION['history'] .= $this->name.'が火縄銃で発泡!!<br>';
-  //   $_SESSION['myhp'] -= $this->hinawaAttack;
-  //   $_SESSION['history'] .= $this->hinawaAttack.'ポイントのダメージを受けた！<br>';
-  // }
-  // attackメソッドをオーバーライドすることで、「ゲーム進行を管理する処理側」は単にattackメソッドを呼べばいいだけになる
-  // 魔法を使えるモンスターは、自分で魔法を出すか普通に攻撃するかを判断する
   public function attack(){
     $attackPoint = $this->attack;
     if(!mt_rand(0,2)){ //3分の1の確率で魔法攻撃
@@ -83,6 +75,19 @@ class HinawaBusho extends Busho{
     }
   }
 }
+// 履歴管理クラス（インスタンス化して複数に増殖させる必要性がないクラスなので、staticにする）
+class History{
+  public static function set($str){
+    // セッションhistoryが作られてなければ作る
+    if(empty($_SESSION['history'])) $_SESSION['history'] = '';
+    // 文字列をセッションhistoryへ格納
+    $_SESSION['history'] .= $str.'<br>';
+  }
+  public static function clear(){
+    unset($_SESSION['history']);
+  }
+}
+
 // インスタンス生成
 $bushoes[] = new Busho( '明智光秀', 100, 'img/akechi.gif', mt_rand(10, 40) );
 $bushoes[] = new Busho( '長宗我部元親', 125, 'img/chosokabe.gif', mt_rand(15, 45) );
@@ -103,11 +108,12 @@ $bushoes[] = new HinawaBusho( '織田信長', 400, 'img/oda.gif', mt_rand(50, 70
 function createBusho(){
   global $bushoes;
   $busho =  $bushoes[mt_rand(0, 14)];
-  $_SESSION['history'] .= $busho->getName().'が現れた！<br>';
+  History::set($busho->getName().'が現れた！');
   $_SESSION['busho'] =  $busho;
 }
 function init(){
-  $_SESSION['history'] .= '初期化します！<br>';
+  History::clear();
+  History::set('初期化します！');
   $_SESSION['knockDownCount'] = 0;
   $_SESSION['myhp'] = MY_HP;
   createBusho();
@@ -124,17 +130,17 @@ if(!empty($_POST)){
   error_log('POSTされた！');
 
   if($startFlg){
-    $_SESSION['history'] = 'ゲームスタート！<br>';
+    History::set('ゲームスタート！');
     init();
   }else{
     // 攻撃するを押した場合
     if($attackFlg){
-      $_SESSION['history'] .= '拙者が攻撃した！<br>';
+      History::set('拙者が攻撃した！');
 
       // ランダムで武将に攻撃を与える
       $attackPoint = mt_rand(50,100);
       $_SESSION['busho']->setHp( $_SESSION['busho']->getHp() - $attackPoint );
-      $_SESSION['history'] .= $attackPoint.'ポイントのダメージを与えた！<br>';
+      History::set($attackPoint.'ポイントのダメージを与えた！');
       
       // 武将から攻撃を受ける
       $_SESSION['busho']->attack();
@@ -145,14 +151,14 @@ if(!empty($_POST)){
       }else{
         // hpが0以下になったら、別の武将を出現させる
         if($_SESSION['busho']->getHp() <= 0){
-          $_SESSION['history'] .= $_SESSION['busho']->getName().'を倒した！<br>';
-          unset($_SESSION['history']);
+          History::set($_SESSION['busho']->getName().'を倒した！<br>');
+          // unset($_SESSION['history']);
           createBusho();
           $_SESSION['knockDownCount'] = $_SESSION['knockDownCount']+1;
         }
       }
     }else{ //逃げるを押した場合
-      $_SESSION['history'] .= '逃げた！<br>';
+      History::set('逃げた！');
       createBusho();
     }
   }
