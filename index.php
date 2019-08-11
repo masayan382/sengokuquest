@@ -52,7 +52,7 @@ class Busho{
     return $this->attack;
   }
 }
-// 火縄銃を使える武将
+// 火縄銃を使える武将クラス
 class HinawaBusho extends Busho{
   private $hinawaAttack;
   function __construct($name, $hp, $img, $attack, $hinawaAttack) {
@@ -64,10 +64,23 @@ class HinawaBusho extends Busho{
     return $this->hinawaAttack;
   }
   // 火縄銃が増えることはない前提として、セッターは作らない（読み取り専用）
-  public function hinawaAttack(){
-    $_SESSION['history'] .= $this->name.'が火縄銃で発泡!!<br>';
-    $_SESSION['myhp'] -= $this->hinawaAttack;
-    $_SESSION['history'] .= $this->hinawaAttack.'ポイントのダメージを受けた！<br>';
+  // public function hinawaAttack(){
+  //   $_SESSION['history'] .= $this->name.'が火縄銃で発泡!!<br>';
+  //   $_SESSION['myhp'] -= $this->hinawaAttack;
+  //   $_SESSION['history'] .= $this->hinawaAttack.'ポイントのダメージを受けた！<br>';
+  // }
+  // attackメソッドをオーバーライドすることで、「ゲーム進行を管理する処理側」は単にattackメソッドを呼べばいいだけになる
+  // 魔法を使えるモンスターは、自分で魔法を出すか普通に攻撃するかを判断する
+  public function attack(){
+    $attackPoint = $this->attack;
+    if(!mt_rand(0,2)){ //3分の1の確率で魔法攻撃
+      $_SESSION['history'] .= $this->name.'が火縄銃を発泡!!<br>';
+      $_SESSION['myhp'] -= $this->hinawaAttack;
+      $_SESSION['history'] .= $this->hinawaAttack.'ポイントのダメージを受けた！<br>';
+    }else{
+      // 通常の攻撃の場合は、親クラスの攻撃メソッドを使うことで、親クラスの攻撃メソッドが修正されてもMagicMonsterでも反映される
+      parent::attack();
+    }
   }
 }
 // インスタンス生成
@@ -122,17 +135,9 @@ if(!empty($_POST)){
       $attackPoint = mt_rand(50,100);
       $_SESSION['busho']->setHp( $_SESSION['busho']->getHp() - $attackPoint );
       $_SESSION['history'] .= $attackPoint.'ポイントのダメージを与えた！<br>';
+      
       // 武将から攻撃を受ける
-      // $_SESSION['busho']->attack();
-      if($_SESSION['busho'] instanceof HinawaBusho){ //渾身攻撃の行える武将なら
-        if(!mt_rand(0,2)){ //3分の1の確率で火縄銃
-          $_SESSION['busho']->hinawaAttack();
-        }else{
-          $_SESSION['busho']->attack();
-        }
-      }else{ //普通の武将ならただ攻撃するだけ
-        $_SESSION['busho']->attack();
-      }
+      $_SESSION['busho']->attack();
 
       // 自分のhpが0以下になったらゲームオーバー
       if($_SESSION['myhp'] <= 0){
