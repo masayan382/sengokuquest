@@ -1,22 +1,83 @@
 <?php
-ini_set("display_errors", 0);  
+ini_set("display_errors", 1);  
 error_reporting(E_ALL);  
 ini_set('log_errors','on');  //ログを取るか
 ini_set('error_log','php.log');  //ログの出力ファイルを指定
 session_start(); //セッション使う
 
-// 自分のHP
-define("MY_HP", 700);
 // 武将達格納用
 $busho = array();
 // クラス（設計図）の作成。クラスの頭は大文字が習わし。
+// 階級クラス
+class Division{
+  const junior = 1;
+  const intermediate = 2;
+  const advanced = 3;
+}
+// 人クラス
+class Samurai{
+  protected $name;
+  protected $division;
+  protected $hp;
+  protected $attackMin;
+  protected $attackMax;
+  public function __construct($name, $division, $hp, $attackMin, $attackMax) {
+    $this->name = $name;
+    $this->division = $division;
+    $this->hp = $hp;
+    $this->attackMin = $attackMin;
+    $this->attackMax = $attackMax;
+  }
+  public function setName($str){
+    $this->name = $str;
+  }
+  public function getName(){
+    return $this->name;
+  }
+  public function setDivision($num){
+    $this->division = $num;
+  }
+  public function getDivision(){
+    return $this->division;
+  }
+  public function setHp($num){
+    $this->hp = $num;
+  }
+  public function getHp(){
+    return $this->hp;
+  }
+  public function sayCry(){
+    switch($this->division){
+      case Division::junior :
+        History::set('ぐはぁっ！');
+        break;
+      case Division::intermediate :
+        History::set('ぐふ！');
+        break;
+      case Division::advanced :
+        History::set('是非もなし…。');
+        break;
+    }
+  }
+  public function attack(){
+    $attackPoint = mt_rand($this->attackMin, $this->attackMax);
+    if(!mt_rand(0,4)){ //5分の1の確率でクリティカル
+      $attackPoint = $attackPoint * 1.5;
+      $attackPoint = (int)$attackPoint;
+      History::set($this->getName().'のクリティカルヒット!!');
+    }
+    $_SESSION['busho']->setHp($_SESSION['busho']->getHp()-$attackPoint);
+    History::set($attackPoint.'ポイントのダメージを与えた！');
+  }
+}
+// モンスタークラス
 class Busho{
   // プロパティ
-  protected $name; // 定義しただけだとnullが入る
+  protected $name;
   protected $hp;
   protected $img;
-  protected $attack = ''; // nullを入れたくない場合、空文字などで初期化する
-  // コンストラクタ（関数）
+  protected $attack;
+  // コンストラクタ
   public function __construct($name, $hp, $img, $attack) {
     $this->name = $name;
     $this->hp = $hp;
@@ -29,14 +90,17 @@ class Busho{
     if(!mt_rand(0,6)){ //7分の1の確率で武将の渾身の一撃
       $attackPoint *= 1.5;
       $attackPoint = (int)$attackPoint;
-      History::set($this->getName().'の渾身の一撃!!!!');
+      History::set($this->getName().'の渾身の一撃!!');
     }
-    $_SESSION['myhp'] -= $attackPoint;
+    $_SESSION['samurai']->setHp( $_SESSION['samurai']->getHp() - $attackPoint );
     History::set($attackPoint.'ポイントのダメージを受けた！');
   }
   // セッター
   public function setHp($num){
     $this->hp = filter_var($num, FILTER_VALIDATE_INT);
+  }
+  public function setAttack($num){
+    $this->attack = (int)filter_var($num, FILTER_VALIDATE_FLOAT);
   }
   // ゲッター
   public function getName(){
@@ -66,9 +130,9 @@ class HinawaBusho extends Busho{
   public function attack(){
     $attackPoint = $this->attack;
     if(!mt_rand(0,2)){ //3分の1の確率で魔法攻撃
-      $_SESSION['history'] .= $this->name.'が火縄銃を発泡!!<br>';
-      $_SESSION['myhp'] -= $this->hinawaAttack;
-      $_SESSION['history'] .= $this->hinawaAttack.'ポイントのダメージを受けた！<br>';
+      History::set($this->name.'が火縄銃を発泡!!');
+      $_SESSION['samurai']->setHp( $_SESSION['samurai']->getHp() - $this->hinawaAttack );
+      History::set($this->hinawaAttack.'ポイントのダメージを受けた！');
     }else{
       // 通常の攻撃の場合は、親クラスの攻撃メソッドを使うことで、親クラスの攻撃メソッドが修正されてもMagicMonsterでも反映される
       parent::attack();
@@ -89,6 +153,7 @@ class History{
 }
 
 // インスタンス生成
+$samurai = new Samurai('侍', Division::intermediate, 700, 50, 150);
 $bushoes[] = new Busho( '明智光秀', 100, 'img/akechi.gif', mt_rand(10, 40) );
 $bushoes[] = new Busho( '長宗我部元親', 125, 'img/chosokabe.gif', mt_rand(15, 45) );
 $bushoes[] = new Busho( '伊達政宗', 150, 'img/date.gif', mt_rand(10, 45) );
@@ -111,11 +176,15 @@ function createBusho(){
   History::set($busho->getName().'が現れた！');
   $_SESSION['busho'] =  $busho;
 }
+function createSamurai(){
+  global $samurai;
+  $_SESSION['samurai'] =  $samurai;
+}
 function init(){
   History::clear();
   History::set('初期化します！');
   $_SESSION['knockDownCount'] = 0;
-  $_SESSION['myhp'] = MY_HP;
+  createSamurai();
   createBusho();
 }
 function gameOver(){
@@ -135,18 +204,19 @@ if(!empty($_POST)){
   }else{
     // 攻撃するを押した場合
     if($attackFlg){
-      History::set('拙者が攻撃した！');
 
-      // ランダムで武将に攻撃を与える
-      $attackPoint = mt_rand(50,100);
-      $_SESSION['busho']->setHp( $_SESSION['busho']->getHp() - $attackPoint );
-      History::set($attackPoint.'ポイントのダメージを与えた！');
-      
-      // 武将から攻撃を受ける
+      // 武将に攻撃を与える
+      History::set('拙者が攻撃した！');
+      $_SESSION['samurai']->attack();
+
+      // 武将が攻撃をする
       $_SESSION['busho']->attack();
+      
+      // 自分が叫ぶ
+      $_SESSION['samurai']->sayCry();
 
       // 自分のhpが0以下になったらゲームオーバー
-      if($_SESSION['myhp'] <= 0){
+      if($_SESSION['samurai']->getHp() <= 0){
         gameOver();
       }else{
         // hpが0以下になったら、別の武将を出現させる
@@ -241,7 +311,7 @@ if(!empty($_POST)){
         </div>
         <p style="font-size:14px; margin-top:110px; text-align:center;">武将のHP：<?php echo $_SESSION['busho']->getHp(); ?></p>
         <p>討ち取った首数：<?php echo $_SESSION['knockDownCount']; ?></p>
-        <p>拙者の残りHP：<?php echo $_SESSION['myhp']; ?></p>
+        <p>拙者の残りHP：<?php echo $_SESSION['samurai']->getHp(); ?></p>
         <form method="post">
           <input type="submit" name="attack" value="▶攻撃する">
           <input type="submit" name="escape" value="▶逃げる">
