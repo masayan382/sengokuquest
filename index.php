@@ -77,7 +77,7 @@ class Samurai extends Creature{
     }
   }
   public function kaihuku(){
-    $tiyu = 700;
+    $tiyu = 500;
     if(!mt_rand(0,3)){ //4分の1の確率で回復
       History::set('侍の傷が回復した!!');
       $this->hp = $tiyu;
@@ -141,7 +141,7 @@ class History{
 }
 
 // インスタンス生成
-$samurai = new Samurai('侍', Division::intermediate, 700, 50, 150);
+$samurai = new Samurai('侍', Division::intermediate, 500, 50, 150);
 $bushoes[] = new Busho( '明智光秀', 100, 'img/akechi.gif',10, 40 );
 $bushoes[] = new Busho( '長宗我部元親', 125, 'img/chosokabe.gif', 15, 45);
 $bushoes[] = new Busho( '伊達政宗', 150, 'img/date.gif', 10, 45);
@@ -193,6 +193,7 @@ if(!empty($_POST)){
     if($attackFlg){
 
       // 武将に攻撃を与える
+      unset($_SESSION['history']);
       History::set($_SESSION['samurai']->getName().'の攻撃！');
       $_SESSION['samurai']->attack($_SESSION['busho']);
       $_SESSION['busho']->sayCry();
@@ -210,7 +211,7 @@ if(!empty($_POST)){
       }else{
         // hpが0以下になったら、別の武将を出現させる
         if($_SESSION['busho']->getHp() <= 0){
-          unset($_SESSION['history']);
+          // unset($_SESSION['history']);
           History::set($_SESSION['busho']->getName().'を倒した！<br>');
           createBusho();
           $_SESSION['knockDownCount'] = $_SESSION['knockDownCount']+1;
