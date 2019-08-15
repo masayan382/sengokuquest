@@ -76,6 +76,13 @@ class Samurai extends Creature{
         break;
     }
   }
+  public function kaihuku(){
+    $tiyu = 700;
+    if(!mt_rand(0,3)){ //4分の1の確率で回復
+      History::set('侍の傷が回復した!!');
+      $this->hp = $tiyu;
+  }
+ } 
 }
 // 武将ークラス
 class Busho extends Creature{
@@ -172,7 +179,6 @@ function gameOver(){
   $_SESSION = array();
 }
 
-
 //1.post送信されていた場合
 if(!empty($_POST)){
   $attackFlg = (!empty($_POST['attack'])) ? true : false;
@@ -195,6 +201,8 @@ if(!empty($_POST)){
       History::set($_SESSION['busho']->getName().'の反撃！');
       $_SESSION['busho']->attack($_SESSION['samurai']);
       $_SESSION['samurai']->sayCry();
+      $_SESSION['samurai']->kaihuku();
+      
 
       // 自分のhpが0以下になったらゲームオーバー
       if($_SESSION['samurai']->getHp() <= 0){
@@ -202,8 +210,8 @@ if(!empty($_POST)){
       }else{
         // hpが0以下になったら、別の武将を出現させる
         if($_SESSION['busho']->getHp() <= 0){
+          unset($_SESSION['history']);
           History::set($_SESSION['busho']->getName().'を倒した！<br>');
-          // unset($_SESSION['history']);
           createBusho();
           $_SESSION['knockDownCount'] = $_SESSION['knockDownCount']+1;
         }
