@@ -63,13 +63,13 @@ class Samurai extends Creature{
     return $this->division;
   }
   public function sayCry(){
-    History::set($this->name.'が叫ぶ！');
+    // History::set($this->name.'が叫ぶ！');
     switch($this->division){
       case Division::junior :
         History::set('ぐはぁっ！');
         break;
       case Division::intermediate :
-        History::set('ぐふ！');
+        History::set($this->name.'「ぐふ！」<br>');
         break;
       case Division::advanced :
         History::set('是非もなし…。');
@@ -79,7 +79,7 @@ class Samurai extends Creature{
   public function kaihuku(){
     $tiyu = 500;
     if(!mt_rand(0,3)){ //4分の1の確率で回復
-      History::set('侍の傷が回復した!!');
+      History::set('侍の傷が回復した!!<br>');
       $this->hp = $tiyu;
   }
  } 
@@ -101,8 +101,8 @@ class Busho extends Creature{
     return $this->img;
   }
   public function sayCry(){
-    History::set($this->name.'が叫ぶ！');
-    History::set('はうっ！');
+    // History::set($this->name.'が叫ぶ！');
+    History::set($this->name.'「はうっ！」<br>');
   }
 }
 // 火縄銃を使える武将クラス
@@ -118,7 +118,7 @@ class HinawaBusho extends Busho{
   }
   public function attack($targetObj){
     if(!mt_rand(0,2)){ //3分の1の確率で魔法攻撃
-      History::set($this->name.'が火縄銃を発泡!!');
+      History::set($this->name.'が火縄銃を発砲!!');
       $targetObj->setHp( $targetObj->getHp() - $this->hinawaAttack );
       History::set($this->hinawaAttack.'ポイントのダメージを受けた！');
     }else{
@@ -161,7 +161,7 @@ $bushoes[] = new HinawaBusho( '織田信長', 400, 'img/oda.gif', 50, 70, mt_ran
 function createBusho(){
   global $bushoes;
   $busho =  $bushoes[mt_rand(0, 14)];
-  History::set($busho->getName().'が現れた！');
+  History::set($busho->getName().'が見参！');
   $_SESSION['busho'] =  $busho;
 }
 function createSamurai(){
@@ -170,7 +170,7 @@ function createSamurai(){
 }
 function init(){
   History::clear();
-  History::set('初期化します！');
+  History::set('ゲームリスタート！');
   $_SESSION['knockDownCount'] = 0;
   createSamurai();
   createBusho();
@@ -232,74 +232,22 @@ if(!empty($_POST)){
   <head>
     <meta charset="utf-8">
     <title>戦国QUEST</title>
-    <style>
-    	body{
-	    	margin: 0 auto;
-	    	padding: 10px;
-	    	width: 25%;
-	    	background: #fbfbfa;
-        color: white;
-    	}
-    	h1{ color: white; font-size: 20px; text-align: center;}
-      h2{ color: white; font-size: 16px; text-align: center;}
-    	form{
-	    	overflow: hidden;
-    	}
-    	input[type="text"]{
-    		color: #545454;
-	    	height: 60px;
-	    	width: 100%;
-	    	padding: 5px 10px;
-	    	font-size: 16px;
-	    	display: block;
-	    	margin-bottom: 10px;
-	    	box-sizing: border-box;
-    	}
-      input[type="password"]{
-    		color: #545454;
-	    	height: 60px;
-	    	width: 100%;
-	    	padding: 5px 10px;
-	    	font-size: 16px;
-	    	display: block;
-	    	margin-bottom: 10px;
-	    	box-sizing: border-box;
-    	}
-    	input[type="submit"]{
-	    	border: none;
-	    	padding: 15px 30px;
-	    	margin-bottom: 15px;
-	    	background: black;
-	    	color: white;
-	    	float: right;
-    	}
-    	input[type="submit"]:hover{
-	    	background: #3d3938;
-	    	cursor: pointer;
-    	}
-    	a{
-	    	color: #545454;
-	    	display: block;
-    	}
-    	a:hover{
-	    	text-decoration: none;
-    	}
-    </style>
+    <link rel="stylesheet" type="text/css" href="style.css">
   </head>
   <body>
-   <h1 style="text-align:center; color:#333;">戦国QUEST</h1>
-    <div style="background:black; padding:15px; position:relative;">
+   <h1>戦国QUEST</h1>
+    <div class= "container">
       <?php if(empty($_SESSION)){ ?>
-        <h2 style="margin-top:60px;">GAME START ?</h2>
+        <h2 >GAME START ?</h2>
         <form method="post">
           <input type="submit" name="start" value="▶ゲームスタート">
         </form>
       <?php }else{ ?>
-        <h2><?php echo $_SESSION['busho']->getName().'が現れた!!'; ?></h2>
-        <div style="height: 150px;">
-          <img src="<?php echo $_SESSION['busho']->getImg(); ?>" style="width:220px; height:auto; margin:10px auto 0px auto; display:block;">
+        <h2><?php echo $_SESSION['busho']->getName().'が見参!!'; ?></h2>
+        <div class="gamen">
+          <img class="img" src="<?php echo $_SESSION['busho']->getImg(); ?>" >
         </div>
-        <p style="font-size:14px; margin-top:110px; text-align:center;">武将のHP：<?php echo $_SESSION['busho']->getHp(); ?></p>
+        <h3>武将のHP：<?php echo $_SESSION['busho']->getHp(); ?></h3>
         <p>討ち取った首数：<?php echo $_SESSION['knockDownCount']; ?></p>
         <p>拙者の残りHP：<?php echo $_SESSION['samurai']->getHp(); ?></p>
         <form method="post">
@@ -308,7 +256,7 @@ if(!empty($_POST)){
           <input type="submit" name="start" value="▶ゲームリスタート">
         </form>
       <?php } ?>
-      <div style="position:absolute; right:-300px; top:0; color:black; width: 250px;">
+      <div class="history">
         <p><?php echo (!empty($_SESSION['history'])) ? $_SESSION['history'] : ''; ?></p>
       </div>
     </div>
