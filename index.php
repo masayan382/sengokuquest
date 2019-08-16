@@ -244,22 +244,27 @@ if(!empty($_POST)){
         </form>
       <?php }else{ ?>
         <h2><?php echo $_SESSION['busho']->getName().'が見参!!'; ?></h2>
+        
         <div class="gamen">
           <img class="img" src="<?php echo $_SESSION['busho']->getImg(); ?>" >
         </div>
+
         <h3>武将のHP：<?php echo $_SESSION['busho']->getHp(); ?></h3>
         <p>討ち取った首数：<?php echo $_SESSION['knockDownCount']; ?></p>
         <p>拙者の残りHP：<?php echo $_SESSION['samurai']->getHp(); ?></p>
+
         <form method="post">
           <input type="submit" name="attack" value="▶攻撃する">
           <input type="submit" name="escape" value="▶逃げる">
           <input type="submit" name="start" value="▶ゲームリスタート">
         </form>
-      <?php } ?>
-      <div class="history">
+        
         <p><?php echo (!empty($_SESSION['history'])) ? $_SESSION['history'] : ''; ?></p>
-      </div>
+      
     </div>
+    <?php }
+       ?>
+      
 
   </body>
 </html>
