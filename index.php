@@ -253,13 +253,13 @@ if(!empty($_POST)){
         <p>討ち取った首数：<?php echo $_SESSION['knockDownCount']; ?></p>
         <p>拙者の残りHP：<?php echo $_SESSION['samurai']->getHp(); ?></p>
 
-        
           <form method="post">
-          <input type="submit" name="attack" value="▶攻撃する">
-          <input type="submit" name="escape" value="▶逃げる">
-          <input type="submit" name="start" value="▶ゲームリスタート">
+          <div class="flexcontainer">
+            <div class="flexitem"><input type="submit" name="attack" value="▶攻撃する"></div>
+            <div class="flexitem"><input type="submit" name="escape" value="▶逃げる"></div>
+            <div class="flexitem"><input type="submit" name="start" value="▶ゲームリスタート"></div>
+          </div>
           </form>
-        
 
         <div class="history">
           <p><?php echo (!empty($_SESSION['history'])) ? $_SESSION['history'] : ''; ?></p>

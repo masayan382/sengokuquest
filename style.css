@@ -1,0 +1,160 @@
+/* http://meyerweb.com/eric/tools/css/reset/
+v2.0 | 20110126
+License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+margin: 0;
+padding: 0;
+border: 0;
+font-size: 100%;
+font: inherit;
+vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+display: block;
+}
+body {
+line-height: 1;
+}
+ol, ul {
+list-style: none;
+}
+blockquote, q {
+quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+content: '';
+content: none;
+}
+table {
+border-collapse: collapse;
+border-spacing: 0;
+}	
+/* リセットここまで*/		
+	body{
+	    	margin: 0 auto;
+	    	padding: 10px;
+	    	width: 90%;
+	    	background: #fbfbfa;
+        color: white;
+ 	}
+	h1{ color: white; font-size: 20px; text-align: center;}
+  h2{ color: white; font-size: 16px; text-align: center;}
+	form{
+	    	overflow: hidden;
+  }
+    	input[type="text"]{
+    		color: #545454;
+	    	height: 60px;
+	    	width: 100%;
+	    	padding: 5px 10px;
+	    	font-size: 16px;
+	    	display: block;
+	    	margin-bottom: 10px;
+	    	box-sizing: border-box;
+    	}
+      input[type="password"]{
+    		color: #545454;
+	    	height: 60px;
+	    	width: 100%;
+	    	padding: 5px 10px;
+	    	font-size: 16px;
+	    	display: block;
+	    	margin-bottom: 10px;
+	    	box-sizing: border-box;
+    	}
+    	input[type="submit"]{
+	    	border: none;
+	    	background: black;
+				color: white;
+				font-size: 20px;
+				/* padding: 15px 30px;
+	    	margin-bottom: 15px;
+	    	float: right; */
+    	}
+    	input[type="submit"]:hover{
+	    	background: #3d3938;
+	    	cursor: pointer;
+			}
+			
+    	a{
+	    	color: #545454;
+	    	display: block;
+    	}
+    	a:hover{
+	    	text-decoration: none;
+        }
+        .h1{
+            text-align:center; 
+						color:#333; 
+				}
+				.h2{
+					margin-top:60px;
+				}
+        .container{
+					background:black;
+					padding:15px;
+					position:relative;
+        }
+    .gamen{
+			height: 150px;
+		}
+
+		.img{
+			width:220px; 
+			height:auto; 
+			margin:10px auto 0px auto; 
+			display:block;
+		}
+		.h3{
+			font-size:14px; 
+			margin-top:110px; 
+			text-align:center;
+		}
+		.history{
+			text-align: center;
+			padding: 0.5em 1em;
+			margin: 2em auto 2em auto;
+			width: 90%;
+			font-weight: bold;
+			color: #6091d3;/*文字色*/
+			background: #FFF;
+			border: solid 3px #6091d3;/*線*/
+			border-radius: 10px;/*角の丸み*/
+	}
+	.history p {
+			margin: 0; 
+			padding: 0;
+	}
+	
+	.flexcontainer {
+		display: flex;
+		width: 93%;
+    margin: 4em auto 2em auto;
+    /* color: #6091d3;
+    background: #FFF;
+    border: solid 3px #6091d3; */
+		border-radius: 10px;
+		justify-content: center;
+		align-items: center;
+}
+	.flexitem{
+		width: 100%;
+		text-align: center;
+	}
