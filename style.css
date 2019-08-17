@@ -47,6 +47,7 @@ border-collapse: collapse;
 border-spacing: 0;
 }	
 /* リセットここまで*/		
+
 	body{
 	    	margin: 0 auto;
 	    	padding: 10px;
@@ -54,7 +55,7 @@ border-spacing: 0;
 	    	background: #fbfbfa;
         color: white;
  	}
-	h1{ color: white; font-size: 20px; text-align: center;}
+	h1{ color: black; font-size: 20px; text-align: center;}
   h2{ color: white; font-size: 16px; text-align: center;}
 	form{
 	    	overflow: hidden;
@@ -107,26 +108,17 @@ border-spacing: 0;
 				.h2{
 					margin-top:60px;
 				}
+				.h3{
+					font-size:14px; 
+					margin-top:110px; 
+					text-align:center;
+				}
         .container{
 					background:black;
 					padding:15px;
 					position:relative;
         }
-    .gamen{
-			height: 150px;
-		}
-
-		.img{
-			width:220px; 
-			height:auto; 
-			margin:10px auto 0px auto; 
-			display:block;
-		}
-		.h3{
-			font-size:14px; 
-			margin-top:110px; 
-			text-align:center;
-		}
+		
 		.history{
 			text-align: center;
 			padding: 0.5em 1em;
@@ -157,4 +149,32 @@ border-spacing: 0;
 	.flexitem{
 		width: 100%;
 		text-align: center;
+	}
+	.sidearea{
+		display: inline-block;
+		border: solid 3px #fff;
+		margin: 1em;
+		padding: 1em 2em;
+		font-size: 18px;
+		line-height:2;
+		vertical-align: top;
+	}
+	.mainarea{
+		display: inline-block;
+		border: solid 3px #fff;
+		margin: 1em;
+		padding: 2em;
+	}
+
+	.mainp {
+		margin-top: 15px;
+		font-size: 18px;
+		text-align: center;
+	}
+
+	.img{
+		width:220px; 
+		height:auto; 
+		margin:10px auto 0px auto; 
+		display:block;
 	}

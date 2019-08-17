@@ -245,14 +245,19 @@ if(!empty($_POST)){
       <?php }else{ ?>
         <h2><?php echo $_SESSION['busho']->getName().'が見参!!'; ?></h2>
         
-        <div class="gamen">
-          <img class="img" src="<?php echo $_SESSION['busho']->getImg(); ?>" >
+      <section>
+        <div class="sidearea">
+          <p>討ち取った首数：<?php echo $_SESSION['knockDownCount']; ?></p>
+          <p>拙者の残りHP：<?php echo $_SESSION['samurai']->getHp(); ?></p>
         </div>
+        <div class="mainarea">
+          <img class="img" src="<?php echo $_SESSION['busho']->getImg(); ?>" >
+          <p class="mainp"><?php echo $_SESSION['busho']->getName().'のHP'; ?>：<?php echo $_SESSION['busho']->getHp(); ?></p>
+        </div>
+        
+      </section>
 
-        <h3>武将のHP：<?php echo $_SESSION['busho']->getHp(); ?></h3>
-        <p>討ち取った首数：<?php echo $_SESSION['knockDownCount']; ?></p>
-        <p>拙者の残りHP：<?php echo $_SESSION['samurai']->getHp(); ?></p>
-
+        <section>
           <form method="post">
           <div class="flexcontainer">
             <div class="flexitem"><input type="submit" name="attack" value="▶攻撃する"></div>
@@ -260,11 +265,14 @@ if(!empty($_POST)){
             <div class="flexitem"><input type="submit" name="start" value="▶ゲームリスタート"></div>
           </div>
           </form>
+        </section>
 
-        <div class="history">
-          <p><?php echo (!empty($_SESSION['history'])) ? $_SESSION['history'] : ''; ?></p>
-        </div>
-    </div>
+        <section>
+          <div class="history">
+            <p><?php echo (!empty($_SESSION['history'])) ? $_SESSION['history'] : ''; ?></p>
+          </div>
+        </section>
+    </>
     <?php }
        ?>
       
