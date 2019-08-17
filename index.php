@@ -161,7 +161,7 @@ $bushoes[] = new HinawaBusho( '織田信長', 400, 'img/oda.gif', 50, 70, mt_ran
 function createBusho(){
   global $bushoes;
   $busho =  $bushoes[mt_rand(0, 14)];
-  History::set($busho->getName().'が見参！');
+  History::set($busho->getName().'が現れた！');
   $_SESSION['busho'] =  $busho;
 }
 function createSamurai(){
@@ -243,7 +243,7 @@ if(!empty($_POST)){
           <input type="submit" name="start" value="▶ゲームスタート">
         </form>
       <?php }else{ ?>
-        <h2><?php echo $_SESSION['busho']->getName().'が見参!!'; ?></h2>
+        <h2><?php echo $_SESSION['busho']->getName().'が現れた!!'; ?></h2>
         
       <section>
         <div class="sidearea">

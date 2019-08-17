@@ -55,8 +55,8 @@ border-spacing: 0;
 	    	background: #fbfbfa;
         color: white;
  	}
-	h1{ color: black; font-size: 20px; text-align: center;}
-  h2{ color: white; font-size: 16px; text-align: center;}
+	h1{ color: white; font-size: 20px; text-align: center;}
+  h2{ color: white; font-size: 25px; text-align: center;}
 	form{
 	    	overflow: hidden;
   }
@@ -125,9 +125,9 @@ border-spacing: 0;
 			margin: 2em auto 2em auto;
 			width: 90%;
 			font-weight: bold;
-			color: #6091d3;/*文字色*/
-			background: #FFF;
-			border: solid 3px #6091d3;/*線*/
+			color: #fff;/*文字色*/
+			background: black;
+			border: solid 3px #fff;/*線*/
 			border-radius: 10px;/*角の丸み*/
 	}
 	.history p {
@@ -138,7 +138,7 @@ border-spacing: 0;
 	.flexcontainer {
 		display: flex;
 		width: 93%;
-    margin: 4em auto 2em auto;
+    margin: 0em auto 0em auto;
     /* color: #6091d3;
     background: #FFF;
     border: solid 3px #6091d3; */
@@ -157,11 +157,12 @@ border-spacing: 0;
 		padding: 1em 2em;
 		font-size: 18px;
 		line-height:2;
-		vertical-align: top;
+		position: absolute;
+		top:85px;
 	}
 	.mainarea{
-		display: inline-block;
-		border: solid 3px #fff;
+		/* display: inline-block; */
+		/* border: solid 3px #fff; */
 		margin: 1em;
 		padding: 2em;
 	}
@@ -173,8 +174,12 @@ border-spacing: 0;
 	}
 
 	.img{
-		width:220px; 
-		height:auto; 
+		display: inline-block;
+		width:auto; 
+		height:250px; 
 		margin:10px auto 0px auto; 
 		display:block;
+	}
+	#section{
+		position: relative;
 	}
