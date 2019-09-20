@@ -3,185 +3,277 @@ v2.0 | 20110126
 License: none (public domain)
 */
 
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed,
-figure, figcaption, footer, header, hgroup,
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-margin: 0;
-padding: 0;
-border: 0;
-font-size: 100%;
-font: inherit;
-vertical-align: baseline;
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure,
-footer, header, hgroup, menu, nav, section {
-display: block;
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
 }
 body {
-line-height: 1;
+  line-height: 1;
 }
-ol, ul {
-list-style: none;
+ol,
+ul {
+  list-style: none;
 }
-blockquote, q {
-quotes: none;
+blockquote,
+q {
+  quotes: none;
 }
-blockquote:before, blockquote:after,
-q:before, q:after {
-content: '';
-content: none;
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
 }
 table {
-border-collapse: collapse;
-border-spacing: 0;
-}	
-/* リセットここまで*/		
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+/* リセットここまで*/
 
-	body{
-	    	margin: 0 auto;
-	    	padding: 10px;
-	    	width: 90%;
-	    	background: #fbfbfa;
-        color: white;
- 	}
-	h1{ color: white; font-size: 20px; text-align: center;}
-  h2{ color: white; font-size: 25px; text-align: center;}
-	form{
-	    	overflow: hidden;
-  }
-    	input[type="text"]{
-    		color: #545454;
-	    	height: 60px;
-	    	width: 100%;
-	    	padding: 5px 10px;
-	    	font-size: 16px;
-	    	display: block;
-	    	margin-bottom: 10px;
-	    	box-sizing: border-box;
-    	}
-      input[type="password"]{
-    		color: #545454;
-	    	height: 60px;
-	    	width: 100%;
-	    	padding: 5px 10px;
-	    	font-size: 16px;
-	    	display: block;
-	    	margin-bottom: 10px;
-	    	box-sizing: border-box;
-    	}
-    	input[type="submit"]{
-	    	border: none;
-	    	background: black;
-				color: white;
-				font-size: 20px;
-				/* padding: 15px 30px;
+body {
+  margin: 0 auto;
+  padding: 10px;
+  width: 980px;
+  background: #fbfbfa;
+  color: white;
+}
+h1 {
+  color: white;
+  font-size: 20px;
+  text-align: center;
+}
+h2 {
+  color: white;
+  font-size: 25px;
+  text-align: center;
+  margin: 1% 0 5% 0;
+}
+form {
+  overflow: hidden;
+}
+input[type="text"] {
+  color: #545454;
+  height: 60px;
+  width: 100%;
+  padding: 5px 10px;
+  font-size: 16px;
+  display: block;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+input[type="password"] {
+  color: #545454;
+  height: 60px;
+  width: 100%;
+  padding: 5px 10px;
+  font-size: 16px;
+  display: block;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+input[type="submit"] {
+  border: none;
+  background: black;
+  color: white;
+  font-size: 20px;
+  /* padding: 15px 30px;
 	    	margin-bottom: 15px;
 	    	float: right; */
-    	}
-    	input[type="submit"]:hover{
-	    	background: #3d3938;
-	    	cursor: pointer;
-			}
-			
-    	a{
-	    	color: #545454;
-	    	display: block;
-    	}
-    	a:hover{
-	    	text-decoration: none;
-        }
-        .h1{
-            text-align:center; 
-						color:#333; 
-				}
-				.h2{
-					margin-top:60px;
-				}
-				.h3{
-					font-size:14px; 
-					margin-top:110px; 
-					text-align:center;
-				}
-        .container{
-					background:black;
-					padding:15px;
-					position:relative;
-        }
-		
-		.history{
-			text-align: center;
-			padding: 0.5em 1em;
-			margin: 2em auto 2em auto;
-			width: 90%;
-			font-weight: bold;
-			color: #fff;/*文字色*/
-			background: black;
-			border: solid 3px #fff;/*線*/
-			border-radius: 10px;/*角の丸み*/
-	}
-	.history p {
-			margin: 0; 
-			padding: 0;
-	}
-	
-	.flexcontainer {
-		display: flex;
-		width: 93%;
-    margin: 0em auto 0em auto;
-    /* color: #6091d3;
+}
+input[type="submit"]:hover {
+  background: #3d3938;
+  cursor: pointer;
+}
+
+a {
+  color: #545454;
+  display: block;
+}
+a:hover {
+  text-decoration: none;
+}
+.h1 {
+  text-align: center;
+  color: #333;
+}
+.h2 {
+  margin-top: 60px;
+}
+.h3 {
+  font-size: 14px;
+  margin-top: 110px;
+  text-align: center;
+}
+.container {
+  background: black;
+  padding: 15px;
+  width: 100%;
+}
+
+.history {
+  text-align: center;
+  padding: 0.5em 1em;
+  margin: 2em auto 2em auto;
+  width: 90%;
+  font-weight: bold;
+  color: #fff; /*文字色*/
+  background: black;
+  border: solid 3px #fff; /*線*/
+  border-radius: 10px; /*角の丸み*/
+}
+.history p {
+  margin: 0;
+  padding: 0;
+}
+
+.flexcontainer {
+  display: flex;
+  width: 93%;
+  margin: 0em auto 0em auto;
+  /* color: #6091d3;
     background: #FFF;
     border: solid 3px #6091d3; */
-		border-radius: 10px;
-		justify-content: center;
-		align-items: center;
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
 }
-	.flexitem{
-		width: 100%;
-		text-align: center;
-	}
-	.sidearea{
-		display: inline-block;
-		border: solid 3px #fff;
-		border-radius: 10px;
-		margin: 1em;
-		padding: 1em 1.5em;
-		font-size: 18px;
-		line-height:2;
-		position: absolute;
-		top:85px;
-		left:20px;
-	}
-	.mainarea{
-		/* display: inline-block; */
-		/* border: solid 3px #fff; */
-		margin: 1em;
-		padding: 2em;
-	}
+.flexitem {
+  width: 100%;
+  text-align: center;
+}
+.main_container {
+  width: 100%;
+}
+.main_container::after {
+  clear: both;
+  display: block;
+  content: "";
+}
+.sidearea {
+  border: solid 3px #fff;
+  border-radius: 10px;
+  padding: 1em 1.5em;
+  font-size: 18px;
+  line-height: 2;
+  width: 20%;
+  float: left;
+  margin-right: 10%;
+}
+.mainarea {
+  float: left;
+}
 
-	.mainp {
-		margin-top: 15px;
-		font-size: 18px;
-		text-align: center;
-	}
+.mainp {
+  margin-top: 15px;
+  font-size: 18px;
+  text-align: center;
+}
 
-	.img{
-		display: inline-block;
-		width:auto; 
-		height:250px; 
-		margin:10px auto 0px auto; 
-		display:block;
-	}
-	#section{
-		position: relative;
-	}
+.action {
+  margin-top: 5%;
+}
+.img {
+  height: 250px;
+}
+#section {
+  /* position: relative; */
+}
