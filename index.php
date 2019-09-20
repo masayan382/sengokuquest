@@ -257,15 +257,17 @@ if(!empty($_POST)){
         
       </section>
 
-        <section>
+      <section>
+        <div class="action">
           <form method="post">
-          <div class="flexcontainer">
-            <div class="flexitem"><input type="submit" name="attack" value="▶攻撃する"></div>
-            <div class="flexitem"><input type="submit" name="escape" value="▶逃げる"></div>
-            <div class="flexitem"><input type="submit" name="start" value="▶ゲームリスタート"></div>
+            <div class="flexcontainer">
+              <div class="flexitem"><input type="submit" name="attack" value="▶攻撃する"></div>
+              <div class="flexitem"><input type="submit" name="escape" value="▶逃げる"></div>
+              <div class="flexitem"><input type="submit" name="start" value="▶ゲームリスタート"></div>
           </div>
           </form>
-        </section>
+        </div>
+      </section>
 
         <section>
           <div class="history">
