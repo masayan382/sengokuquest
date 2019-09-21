@@ -15,7 +15,7 @@ class Division{
   const advanced = 3;
 }
 
-// 抽象クラス（生き物クラス）
+// 抽象クラス
 abstract class Creature{
   protected $name;
   protected $hp;
@@ -117,17 +117,16 @@ class HinawaBusho extends Busho{
     return $this->hinawaAttack;
   }
   public function attack($targetObj){
-    if(!mt_rand(0,2)){ //3分の1の確率で魔法攻撃
+    if(!mt_rand(0,2)){ //3分の1の確率で火縄攻撃
       History::set($this->name.'が火縄銃を発砲!!');
       $targetObj->setHp( $targetObj->getHp() - $this->hinawaAttack );
       History::set($this->hinawaAttack.'ポイントのダメージを受けた！');
     }else{
-      // 通常の攻撃の場合は、親クラスの攻撃メソッドを使うことで、親クラスの攻撃メソッドが修正されてもMagicMonsterでも反映される
       parent::attack($targetObj);
     }
   }
 }
-// 履歴管理クラス（インスタンス化して複数に増殖させる必要性がないクラスなので、staticにする）
+// 履歴管理クラス
 class History{
   public static function set($str){
     // セッションhistoryが作られてなければ作る
@@ -277,7 +276,5 @@ if(!empty($_POST)){
     </>
     <?php }
        ?>
-      
-
   </body>
 </html>
