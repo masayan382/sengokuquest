@@ -175,9 +175,6 @@ input[type="submit"] {
   background: black;
   color: white;
   font-size: 20px;
-  /* padding: 15px 30px;
-	    	margin-bottom: 15px;
-	    	float: right; */
 }
 input[type="submit"]:hover {
   background: #3d3938;
@@ -229,9 +226,6 @@ a:hover {
   display: flex;
   width: 93%;
   margin: 0em auto 0em auto;
-  /* color: #6091d3;
-    background: #FFF;
-    border: solid 3px #6091d3; */
   border-radius: 10px;
   justify-content: center;
   align-items: center;
@@ -273,7 +267,4 @@ a:hover {
 }
 .img {
   height: 250px;
-}
-#section {
-  /* position: relative; */
 }
