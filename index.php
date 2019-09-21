@@ -1,14 +1,12 @@
 <?php
 ini_set("display_errors", 1);  
 error_reporting(E_ALL);  
-ini_set('log_errors','on');  //ログを取るか
-ini_set('error_log','php.log');  //ログの出力ファイルを指定
-session_start(); //セッション使う
+ini_set('log_errors','on');  
+ini_set('error_log','php.log'); 
+session_start(); //
 
 // 武将達格納用
 $busho = array();
-// クラス（設計図）の作成。クラスの頭は大文字が習わし。
-// 階級クラス
 class Division{
   const junior = 1;
   const intermediate = 2;
@@ -109,7 +107,6 @@ class Busho extends Creature{
 class HinawaBusho extends Busho{
   private $hinawaAttack;
   function __construct($name, $hp, $img, $attackMin, $attackMax, $hinawaAttack) {
-    // 親クラスのコンストラクタで処理する内容を継承したい場合には親コンストラクタを呼び出す。
     parent::__construct($name, $hp, $img, $attackMin, $attackMax);
     $this->hinawaAttack = $hinawaAttack;
   }
@@ -127,11 +124,8 @@ class HinawaBusho extends Busho{
   }
 }
 // 履歴管理クラス
-class History{
   public static function set($str){
-    // セッションhistoryが作られてなければ作る
     if(empty($_SESSION['history'])) $_SESSION['history'] = '';
-    // 文字列をセッションhistoryへ格納
     $_SESSION['history'] .= $str.'<br>';
   }
   public static function clear(){
@@ -245,15 +239,16 @@ if(!empty($_POST)){
         <h2><?php echo $_SESSION['busho']->getName().'が現れた!!'; ?></h2>
         
       <section>
-        <div class="sidearea">
-          <p>討ち取った首数：<?php echo $_SESSION['knockDownCount']; ?></p>
-          <p>拙者の残りHP：<?php echo $_SESSION['samurai']->getHp(); ?></p>
-        </div>
+        <div class="main_container">
+          <div class="sidearea">
+            <p>討ち取った首数：<?php echo $_SESSION['knockDownCount']; ?></p>
+            <p>拙者の残りHP：<?php echo $_SESSION['samurai']->getHp(); ?></p>
+          </div>
         <div class="mainarea">
           <img class="img" src="<?php echo $_SESSION['busho']->getImg(); ?>" >
           <p class="mainp"><?php echo $_SESSION['busho']->getName().'のHP'; ?>：<?php echo $_SESSION['busho']->getHp(); ?></p>
         </div>
-        
+      </div>
       </section>
 
       <section>
@@ -276,5 +271,7 @@ if(!empty($_POST)){
     </>
     <?php }
        ?>
+      
+
   </body>
 </html>
