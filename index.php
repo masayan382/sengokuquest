@@ -1,21 +1,20 @@
 <?php
 ini_set("display_errors", 1);  
 error_reporting(E_ALL);  
-ini_set('log_errors','on');  //ログを取るか
-ini_set('error_log','php.log');  //ログの出力ファイルを指定
-session_start(); //セッション使う
+ini_set('log_errors','on');  
+ini_set('error_log','php.log');  
+session_start(); 
 
 // 武将達格納用
 $busho = array();
-// クラス（設計図）の作成。クラスの頭は大文字が習わし。
-// 階級クラス
+
 class Division{
   const junior = 1;
   const intermediate = 2;
   const advanced = 3;
 }
 
-// 抽象クラス（生き物クラス）
+// 抽象クラス
 abstract class Creature{
   protected $name;
   protected $hp;
@@ -109,7 +108,6 @@ class Busho extends Creature{
 class HinawaBusho extends Busho{
   private $hinawaAttack;
   function __construct($name, $hp, $img, $attackMin, $attackMax, $hinawaAttack) {
-    // 親クラスのコンストラクタで処理する内容を継承したい場合には親コンストラクタを呼び出す。
     parent::__construct($name, $hp, $img, $attackMin, $attackMax);
     $this->hinawaAttack = $hinawaAttack;
   }
@@ -117,22 +115,19 @@ class HinawaBusho extends Busho{
     return $this->hinawaAttack;
   }
   public function attack($targetObj){
-    if(!mt_rand(0,2)){ //3分の1の確率で魔法攻撃
+    if(!mt_rand(0,2)){ //3分の1の確率で火縄攻撃
       History::set($this->name.'が火縄銃を発砲!!');
       $targetObj->setHp( $targetObj->getHp() - $this->hinawaAttack );
       History::set($this->hinawaAttack.'ポイントのダメージを受けた！');
     }else{
-      // 通常の攻撃の場合は、親クラスの攻撃メソッドを使うことで、親クラスの攻撃メソッドが修正されてもMagicMonsterでも反映される
       parent::attack($targetObj);
     }
   }
 }
-// 履歴管理クラス（インスタンス化して複数に増殖させる必要性がないクラスなので、staticにする）
+// 履歴管理クラス
 class History{
   public static function set($str){
-    // セッションhistoryが作られてなければ作る
     if(empty($_SESSION['history'])) $_SESSION['history'] = '';
-    // 文字列をセッションhistoryへ格納
     $_SESSION['history'] .= $str.'<br>';
   }
   public static function clear(){
