@@ -1,4 +1,4 @@
-# 戦国クエスト（Senfoku Quest）
+# 戦国クエスト（Sengoku Quest）
 
 This is a game that recreates the famous RPG battle scene.
 
@@ -36,4 +36,4 @@ nothing special.
 
 # License
 
-"Senfoku Quest" is under [MIT license](https://en.wikipedia.org/wiki/MIT_License).
+"Sengoku Quest" is under [MIT license](https://en.wikipedia.org/wiki/MIT_License).
